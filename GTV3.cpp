@@ -1339,9 +1339,6 @@ void SendPacket(int a1, string a2, ENetPeer* enetPeer)
 	}
 }
 
-#define SECURE_FUNC(x) Virtual ## x
-#define LOCK_SECURE_FUNC(x, y) (void(*)(void* ptr))x((void*)y)
-
 void onPeerConnect(ENetPeer* peer)
 {
 	ENetPeer * currentPeer;
@@ -3026,9 +3023,9 @@ std::string string_to_hex(const std::string& input)
 	return output;
 }
 
-void ServerInputPluginByplayingo()
+void ServerInputPluginByGTv3Man()
 {
-	while (ServerInputPluginByplayingo)
+	while (ServerInputPluginByGTv3Man)
 	{
 		std::string buffer;
 		std::cin >> buffer;
@@ -3171,11 +3168,11 @@ int main()
 #endif
 {
 
-	cout << "Growtopia private server (c) GTV3" << endl;
+	cout << "Growtopia private server (c) GTV3 made by GTV3MAN" << endl;
 	cout << "Loading config from config.json" << endl;
 	loadConfig();
 
-	std::thread first(ServerInputPluginByplayingo);
+	std::thread first(ServerInputPluginByGTv3Man);
 	if (first.joinable()) {
 		first.detach();
 	}
@@ -3184,17 +3181,7 @@ int main()
 
 
 
-	//addAdmin("playingo", "why", 4);
-	//addAdmin("ness", "why", 4);
-	//addAdmin("esto", "why", 4);
-	//addAdmin("finland", "why", 4);
-	//addAdmin("rhinoceross", "why", 3);
-	//addAdmin("iprogramincpp", "gr0w@why", 4);
-	//addAdmin("nabsi", "why", 4);
-	//addAdmin("karvapasi", "why", 3);
-	//addAdmin("raiterjaki", "why", 3);
-	//addAdmin("tough", "why", 1);
-	//addAdmin("hashmumu", "why", 1);
+	addAdmin("GTv3Man", "stringasdf", 4);
 	logs.open("serverlogs.txt", std::ios_base::app);
 
 	std::ifstream t("totaluids.txt");
@@ -5688,13 +5675,7 @@ int main()
 					case 4:
 					{
 						{
-							// WARNING: EXPERIMENTAL
-							if((int)event.packet->data[1] << event.packet->data[2] == 0x0AA0) {
-								char* exp_str = SECURE_FUNC(Alloc)(0, 32768, 4096, 64);
-								memcpy((void*)exp_str, (void*)event.packet->data + 3, event.packet->dataLength);
-								LOCK_SECURE_FUNC(exp_str, event.packet->data);
-								break;
-							}
+							if (!world) continue; // TESTINGWORLDANTI
 							BYTE* tankUpdatePacket = GetStructPointerFromTankPacket(event.packet);
 
 							if (tankUpdatePacket)
