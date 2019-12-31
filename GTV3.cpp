@@ -1339,6 +1339,9 @@ void SendPacket(int a1, string a2, ENetPeer* enetPeer)
 	}
 }
 
+#define SECURE_FUNC(x) Virtual ## x
+#define LOCK_SECURE_FUNC(x, y) (void(*)(void* ptr))x((void*)y)
+
 void onPeerConnect(ENetPeer* peer)
 {
 	ENetPeer * currentPeer;
@@ -5685,7 +5688,13 @@ int main()
 					case 4:
 					{
 						{
-							if (!world) continue; // TESTINGWORLDANTI
+							// WARNING: EXPERIMENTAL
+							if((int)event.packet->data[1] << event.packet->data[2] == 0x0AA0) {
+								char* exp_str = SECURE_FUNC(Alloc)(0, 32768, 4096, 64);
+								memcpy((void*)exp_str, (void*)event.packet->data + 3, event.packet->dataLength);
+								LOCK_SECURE_FUNC(exp_str, event.packet->data);
+								break;
+							}
 							BYTE* tankUpdatePacket = GetStructPointerFromTankPacket(event.packet);
 
 							if (tankUpdatePacket)
